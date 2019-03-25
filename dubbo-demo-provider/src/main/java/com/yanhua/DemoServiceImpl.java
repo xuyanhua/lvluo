@@ -1,7 +1,12 @@
 package com.yanhua;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author xuyanhua
@@ -54,4 +59,24 @@ public class DemoServiceImpl implements DemoService {
         Result<String> result = new Result<>();
         result.setModule("[no response]saveStudent:name=" + name + ", age=" + age);
     }
+
+    @Override
+    public Result<ArrayList<StudentBean>> listStudentLessThanAge(Integer ageLimit, List<StudentBean> studentBeanList) {
+        if (ageLimit == null || ageLimit.intValue() <= 0) {
+            return Result.buildFailedResult("ageLimit必须大于0");
+        }
+        if (CollectionUtils.isEmpty(studentBeanList)) {
+            return Result.buildFailedResult("studentBeanList不能为空");
+        }
+        Result<ArrayList<StudentBean>> result = new Result<>();
+        List<StudentBean> studentBeanArrayList2 = studentBeanList.stream().filter(e ->
+                e.getAge() > ageLimit
+        ).collect(Collectors.toList());
+        ArrayList<StudentBean> list = new ArrayList<>();
+        list.addAll(studentBeanArrayList2);
+        result.setModule(list);
+        return result;
+    }
+
+
 }

@@ -1,5 +1,8 @@
 package com.yanhua;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 客户端Demo
  *
@@ -46,4 +49,13 @@ public interface DemoService {
      * @param student
      */
     void saveStudent(StudentBean student);
+
+    /**
+     * 参数为基本类型与自定义类型混合
+     *
+     * @param ageLimit        年龄
+     * @param studentBeanList 学生集合
+     * @return 返回小于ageLimit的学生集合
+     */
+    Result<ArrayList<StudentBean>> listStudentLessThanAge(Integer ageLimit, List<StudentBean> studentBeanList);
 }
