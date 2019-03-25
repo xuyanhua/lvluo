@@ -5,6 +5,7 @@ import com.yanhua.CallService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.Map;
 
@@ -21,12 +22,22 @@ public class CallController {
     public Object call(String interfaceName, String methodName, String parameterTypes, String args) {
         try {
             Object[] argsArr = null;
-            if (parameterTypes.startsWith("java.lang")) {
-                argsArr = args.split(",");
+            if (StringUtils.isEmpty(args)) {
+                argsArr = new Object[0];
             } else {
-                argsArr = new Object[]{JSONObject.parseObject(args).toJavaObject(Map.class)};
+                if (parameterTypes.startsWith("java.lang")) {
+                    argsArr = args.split(",");
+                } else {
+                    argsArr = new Object[]{JSONObject.parseObject(args).toJavaObject(Map.class)};
+                }
             }
-            Object result = CallService.call(interfaceName, methodName, parameterTypes.split(","), argsArr);
+            String[] parameterTypesArr = null;
+            if (StringUtils.isEmpty(parameterTypes)) {
+                parameterTypesArr = new String[0];
+            } else {
+                parameterTypesArr = parameterTypes.split(",");
+            }
+            Object result = CallService.call(interfaceName, methodName, parameterTypesArr, argsArr);
             return result;
         } catch (Exception e) {
             e.printStackTrace();

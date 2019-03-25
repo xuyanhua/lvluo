@@ -6,6 +6,15 @@ package com.yanhua;
  * @date 2019/3/22 下午2:39
  */
 public class DemoServiceImpl implements DemoService {
+
+    @Override
+    public Result<String> sayHello() {
+        System.out.println("空参数...");
+        Result<String> result = new Result<>();
+        result.setModule("[empty param]hello:" + "无参数");
+        return result;
+    }
+
     @Override
     public Result<String> sayHello(String name) {
         System.out.println("hello:" + name);

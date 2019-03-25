@@ -9,6 +9,13 @@ package com.yanhua;
  */
 public interface DemoService {
     /**
+     * 空参数
+     *
+     * @return
+     */
+    Result<String> sayHello();
+
+    /**
      * 单参数
      *
      * @param name
