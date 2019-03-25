@@ -2,7 +2,9 @@ package com.yanhua.lvluoweb.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yanhua.CallService;
+import com.yanhua.lvluoweb.CallPayload;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.util.StringUtils;
@@ -44,4 +46,21 @@ public class CallController {
             return e.getMessage();
         }
     }
+
+    @PostMapping(value = "/call2", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Object call(@RequestBody CallPayload callPayload) {
+        String interfaceName = callPayload.getInterfaceName();
+        String methodName = callPayload.getMethodName();
+        String[] parameterTypes = callPayload.getParameterTypes();
+        Object[] args = callPayload.getArgs();
+        try {
+            Object result = CallService.call(interfaceName, methodName, parameterTypes, args);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
+
 }

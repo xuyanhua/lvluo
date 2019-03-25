@@ -53,6 +53,15 @@ public interface DemoService {
     /**
      * 参数为基本类型与自定义类型混合
      *
+     * @param ageLimit    年龄
+     * @param studentBean 学生对象
+     * @return 如果学生年龄小于ageLimit则返回true，否则返回false
+     */
+    Result<String> validStudent(Integer ageLimit, StudentBean studentBean);
+
+    /**
+     * 参数为基本类型与自定义类型混合
+     *
      * @param ageLimit        年龄
      * @param studentBeanList 学生集合
      * @return 返回小于ageLimit的学生集合

@@ -61,6 +61,21 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
+    public Result<String> validStudent(Integer ageLimit, StudentBean studentBean) {
+        if (ageLimit == null || ageLimit.intValue() <= 0) {
+            return Result.buildFailedResult("ageLimit必须大于0");
+        }
+        if (studentBean == null) {
+            return Result.buildFailedResult("studentBean不能为空");
+        }
+        Result<String> result = new Result<>();
+        Boolean validFlag = studentBean.getAge() < ageLimit;
+        result.setModule("[混合参数]Student:name=" + studentBean.getName() + ", age=" + studentBean.getAge() //
+                + "的年龄小于" + ageLimit + "->" + validFlag.toString());
+        return result;
+    }
+
+    @Override
     public Result<ArrayList<StudentBean>> listStudentLessThanAge(Integer ageLimit, List<StudentBean> studentBeanList) {
         if (ageLimit == null || ageLimit.intValue() <= 0) {
             return Result.buildFailedResult("ageLimit必须大于0");
