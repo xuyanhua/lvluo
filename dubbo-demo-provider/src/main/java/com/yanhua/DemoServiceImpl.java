@@ -7,8 +7,28 @@ package com.yanhua;
  */
 public class DemoServiceImpl implements DemoService {
     @Override
-    public String sayHello(String name) {
+    public Result<String> sayHello(String name) {
         System.out.println("hello:" + name);
-        return "hello:" + name;
+        Result<String> result = new Result<>();
+        result.setModule("[single param]hello:" + name);
+        return result;
+    }
+
+    @Override
+    public Result<String> sayHello(String name, Integer age) {
+        System.out.println("hello:" + name);
+        Result<String> result = new Result<>();
+        result.setModule("[double params]hello:" + name + ", your age is:" + age);
+        return result;
+    }
+
+    @Override
+    public Result<String> sayHello(StudentBean student) {
+        String name = student.getName();
+        Integer age = student.getAge();
+        System.out.println("hello:" + name);
+        Result<String> result = new Result<>();
+        result.setModule("[java bean]hello:" + name + ", your age is:" + age);
+        return result;
     }
 }

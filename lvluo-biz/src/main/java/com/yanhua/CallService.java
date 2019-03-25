@@ -6,7 +6,7 @@ import com.alibaba.dubbo.rpc.service.GenericService;
  * Hello world!
  */
 public class CallService {
-    public static String call(String interfaceName, String methodName, String[] parameterTypes, Object[] args) {
+    public static Object call(String interfaceName, String methodName, String[] parameterTypes, Object[] args) {
         // 用org.apache.dubbo.rpc.service.GenericService可以替代所有接口引用
         GenericService genericService = ReferenceConfigCenter.get(interfaceName);
 
@@ -20,7 +20,7 @@ public class CallService {
 //        person.put("password", "yyy");
 //// 如果返回POJO将自动转成Map
 //        Object result = genericService.$invoke("findPerson", new String[]{"com.xxx.Person"}, new Object[]{person});
-        return result.toString();
+        return result;
     }
 
     public static void main(String[] args) {
