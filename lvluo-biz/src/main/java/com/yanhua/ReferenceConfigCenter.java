@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.rpc.service.GenericService;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,10 +16,19 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ReferenceConfigCenter {
     private static Map<String, ReferenceConfig<GenericService>> referenceConfigMap = new ConcurrentHashMap<>();
-    private static String zk = "zookeeper://127.0.0.1:2181";
+
+    @Value("zk")
+    private String zk = "zookeeper://127.0.0.1:2181";
     private static final String applicationName = "dubbo-warpper";
 
-    public static GenericService get(String interfaceName) {
+    private ReferenceConfigCenter() {
+    }
+    private static class Inner{
+        public static ReferenceConfigCenter instance = new ReferenceConfigCenter();
+    }
+
+
+    public GenericService get(String interfaceName) {
         // 当前应用配置
         ApplicationConfig application = new ApplicationConfig();
         application.setName(applicationName);
@@ -41,5 +51,9 @@ public class ReferenceConfigCenter {
         }
         GenericService genericService = reference.get();
         return genericService;
+    }
+
+    public static ReferenceConfigCenter getInstance() {
+        return Inner.instance;
     }
 }

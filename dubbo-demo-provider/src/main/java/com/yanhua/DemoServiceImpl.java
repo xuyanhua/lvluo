@@ -19,24 +19,21 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     public Result<String> sayHello() {
-        Result<String> result = new Result<>();
-        result.setModule("[empty param]hello:无参数");
+        Result<String> result = Result.buildFailedResult("[empty param]hello:无参数");
         LOGGER.info("[empty param]hello:无参数");
         return result;
     }
 
     @Override
     public Result<String> sayHello(String name) {
-        Result<String> result = new Result<>();
-        result.setModule("[single param]hello:" + name);
+        Result<String> result = Result.buildSuccessResult("[single param]hello:" + name);
         LOGGER.info("[single param]hello:" + name);
         return result;
     }
 
     @Override
     public Result<String> sayHello(String name, Integer age) {
-        Result<String> result = new Result<>();
-        result.setModule("[double params]hello:" + name + ", your age is:" + age);
+        Result<String> result = Result.buildSuccessResult("[double params]hello:" + name + ", your age is:" + age);
         LOGGER.info("[double params]hello:" + name + ", your age is:" + age);
         return result;
     }
@@ -45,9 +42,8 @@ public class DemoServiceImpl implements DemoService {
     public Result<String> sayHello(StudentBean student) {
         String name = student.getName();
         Integer age = student.getAge();
-        Result<String> result = new Result<>();
-        result.setModule("[java bean]hello:" + name + ", your age is:" + age);
-        LOGGER.info("[java bean]hello:" + name + ", your age is:" + age);
+        Result<String> result = Result.buildSuccessResult("[java bean]hello:" + name + ", your age is:" + age);
+        LOGGER.info("[java bean]hello:{}, your age is:", name, age);
         return result;
     }
 
@@ -55,9 +51,7 @@ public class DemoServiceImpl implements DemoService {
     public void saveStudent(StudentBean student) {
         String name = student.getName();
         Integer age = student.getAge();
-        System.out.println("hello:" + name);
-        Result<String> result = new Result<>();
-        result.setModule("[no response]saveStudent:name=" + name + ", age=" + age);
+        LOGGER.info("hello:{},age:{}", name, age);
     }
 
     @Override
@@ -68,10 +62,10 @@ public class DemoServiceImpl implements DemoService {
         if (studentBean == null) {
             return Result.buildFailedResult("studentBean不能为空");
         }
-        Result<String> result = new Result<>();
         Boolean validFlag = studentBean.getAge() < ageLimit;
-        result.setModule("[混合参数]Student:name=" + studentBean.getName() + ", age=" + studentBean.getAge() //
-                + "的年龄小于" + ageLimit + "->" + validFlag.toString());
+        String msg = "[混合参数]Student:name=" + studentBean.getName() + ", age=" + studentBean.getAge() //
+                + "的年龄小于" + ageLimit + "->" + validFlag.toString();
+        Result<String> result = Result.buildSuccessResult(validFlag, msg);
         return result;
     }
 
@@ -83,13 +77,10 @@ public class DemoServiceImpl implements DemoService {
         if (CollectionUtils.isEmpty(studentBeanList)) {
             return Result.buildFailedResult("studentBeanList不能为空");
         }
-        Result<ArrayList<StudentBean>> result = new Result<>();
         List<StudentBean> studentBeanArrayList2 = studentBeanList.stream().filter(e -> e.getAge() < ageLimit).collect(Collectors.toList());
         ArrayList<StudentBean> list = new ArrayList<>();
         list.addAll(studentBeanArrayList2);
-        result.setModule(list);
+        Result<ArrayList<StudentBean>> result = Result.buildSuccessResult(list);
         return result;
     }
-
-
 }

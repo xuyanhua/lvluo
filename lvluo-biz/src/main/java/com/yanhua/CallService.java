@@ -6,9 +6,10 @@ import com.alibaba.dubbo.rpc.service.GenericService;
  * Hello world!
  */
 public class CallService {
+
     public static Object call(String interfaceName, String methodName, String[] parameterTypes, Object[] args) {
         // 用org.apache.dubbo.rpc.service.GenericService可以替代所有接口引用
-        GenericService genericService = ReferenceConfigCenter.get(interfaceName);
+        GenericService genericService = ReferenceConfigCenter.getInstance().get(interfaceName);
 
         // 基本类型以及Date,List,Map等不需要转换，直接调用
         Object result = genericService.$invoke(methodName, parameterTypes, args);
