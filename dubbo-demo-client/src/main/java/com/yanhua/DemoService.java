@@ -39,4 +39,11 @@ public interface DemoService {
      * @return
      */
     Result<String> sayHello(StudentBean student);
+
+    /**
+     * 无返回值
+     *
+     * @param student
+     */
+    void saveStudent(StudentBean student);
 }
