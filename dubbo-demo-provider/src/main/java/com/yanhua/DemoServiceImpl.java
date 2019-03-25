@@ -84,9 +84,7 @@ public class DemoServiceImpl implements DemoService {
             return Result.buildFailedResult("studentBeanList不能为空");
         }
         Result<ArrayList<StudentBean>> result = new Result<>();
-        List<StudentBean> studentBeanArrayList2 = studentBeanList.stream().filter(e ->
-                e.getAge() > ageLimit
-        ).collect(Collectors.toList());
+        List<StudentBean> studentBeanArrayList2 = studentBeanList.stream().filter(e -> e.getAge() < ageLimit).collect(Collectors.toList());
         ArrayList<StudentBean> list = new ArrayList<>();
         list.addAll(studentBeanArrayList2);
         result.setModule(list);

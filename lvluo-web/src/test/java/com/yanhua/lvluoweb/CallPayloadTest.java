@@ -5,7 +5,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -89,4 +91,23 @@ public class CallPayloadTest {
         LOGGER.info(JSONObject.toJSONString(callPayload));
     }
 
+    /**
+     * 混合参数的调用负载
+     */
+    @Test
+    public void testMixedParams2() {
+        CallPayload callPayload = new CallPayload();
+        callPayload.setInterfaceName("com.yanhua.DemoService");
+        callPayload.setMethodName("validStudent");
+        callPayload.setParameterTypes(new String[]{"java.lang.Integer", "java.util.List"});
+        List<Map> list = new ArrayList<>();
+        for (int i = 8; i < 14; i++) {
+            Map map = new HashMap();
+            map.put("name", "xuyanhua" + i);
+            map.put("age", i);
+            list.add(map);
+        }
+        callPayload.setArgs(new Object[]{10, list});
+        LOGGER.info(JSONObject.toJSONString(callPayload));
+    }
 }
