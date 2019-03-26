@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @author xuyanhua
  * @description:
@@ -22,8 +24,9 @@ public class CallController {
         String methodName = callPayload.getMethodName();
         String[] parameterTypes = callPayload.getParameterTypes();
         Object[] args = callPayload.getArgs();
+        Map<String, String> option = callPayload.getOption();
         try {
-            Object result = CallService.call(interfaceName, methodName, parameterTypes, args);
+            Object result = CallService.call(interfaceName, methodName, parameterTypes, args,option);
             return result;
         } catch (Exception e) {
             e.printStackTrace();

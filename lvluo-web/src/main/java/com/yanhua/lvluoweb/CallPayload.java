@@ -1,5 +1,7 @@
 package com.yanhua.lvluoweb;
 
+import java.util.Map;
+
 /**
  * 调用载体
  *
@@ -12,6 +14,7 @@ public class CallPayload {
     private String methodName;
     private String[] parameterTypes;
     private Object[] args;
+    private Map<String, String> option;
 
     public String getInterfaceName() {
         return interfaceName;
@@ -43,5 +46,13 @@ public class CallPayload {
 
     public void setArgs(Object[] args) {
         this.args = args;
+    }
+
+    public Map<String, String> getOption() {
+        return option;
+    }
+
+    public void setOption(Map<String, String> option) {
+        this.option = option;
     }
 }

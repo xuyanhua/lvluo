@@ -1,26 +1,24 @@
 package com.yanhua;
 
 import com.alibaba.dubbo.rpc.service.GenericService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Hello world!
  */
 public class CallService {
+    private final static Logger LOGGER = LoggerFactory.getLogger(CallService.class);
 
-    public static Object call(String interfaceName, String methodName, String[] parameterTypes, Object[] args) {
+    public static Object call(String interfaceName, String methodName, String[] parameterTypes, Object[] args, Map<String, String> option) {
         // 用org.apache.dubbo.rpc.service.GenericService可以替代所有接口引用
-        GenericService genericService = ReferenceConfigCenter.getInstance().get(interfaceName);
-
+        GenericService genericService = ReferenceConfigCenter.getInstance().get(interfaceName, option);
         // 基本类型以及Date,List,Map等不需要转换，直接调用
         Object result = genericService.$invoke(methodName, parameterTypes, args);
-
-        System.out.println("api调用返回：" + result);
-        // 用Map表示POJO参数，如果返回值为POJO也将自动转成Map
-//        Map<String, Object> person = new HashMap<String, Object>();
-//        person.put("name", "xxx");
-//        person.put("password", "yyy");
-//// 如果返回POJO将自动转成Map
-//        Object result = genericService.$invoke("findPerson", new String[]{"com.xxx.Person"}, new Object[]{person});
+        LOGGER.info("api调用返回：{}", result);
         return result;
     }
 
@@ -29,6 +27,6 @@ public class CallService {
         String methodName = "sayHello";
         String[] parameterTypes = new String[]{"java.lang.String"};
         Object[] args0 = new Object[]{"world"};
-        call(interfaceName, methodName, parameterTypes, args0);
+        call(interfaceName, methodName, parameterTypes, args0, new HashMap<>());
     }
 }
